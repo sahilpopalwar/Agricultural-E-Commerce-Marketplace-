@@ -1,0 +1,5 @@
+CREATE TABLE suggestions (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    suggestion_text VARCHAR(255) NOT NULL,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

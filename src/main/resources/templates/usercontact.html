@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Fresh Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/usercontact.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/user" class="logo">
+                <i class="fas fa-leaf"></i>
+                Fresh Market
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/user">Home</a></li>
+                    <li><a href="/userabout">About</a></li>
+                    <li><a href="/userservices">Services</a></li>
+                    <li><a href="/usercontact" class="active">Contact</a></li>
+                    <li>
+                        <div class="profile-menu">
+                            <button class="profile-btn">
+                                <img src="sahil.jpg" class="profile-img">
+                            </button>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                <a href="/profile" onclick="showPage('profile-page')"><i class="fas fa-user"></i> My Profile</a>
+                                <a href="/order" onclick="showPage('orders-page')"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                                <a href="/Wishlist" onclick="showPage('wishlist-page')"><i class="fas fa-heart"></i> Wishlist</a>
+                                <a href="/settings" onclick="showPage('settings-page')"><i class="fas fa-cog"></i> Settings</a>
+                                <a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Contact Page -->
+        <div id="contact-page" class="page-content active">
+            <div class="contact-section">
+                <h1>Contact Us</h1>
+                <p>At <strong>Fresh Market</strong>, we value our customers and are always here to assist you. Whether you have questions about our products, need help with an order, or just want to share your feedback, we're happy to hear from you!</p>
+
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h2>Our Address</h2>
+                        <p>SGGS Engineering college, Vishunpuri, Nanded</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <i class="fas fa-phone"></i>
+                        <h2>Phone</h2>
+                        <p><a href="tel:+918605876016">+91 8605876016</a></p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <h2>Email</h2>
+                        <p><a href="mailto:sahilpopalwar358@gmail.com">sahilpopalwar358@gmail.com</a></p>
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.328234704104!2d77.12345678901234!3d18.123456789012345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDA3JzI0LjQiTiA3N8KwMDcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+
+                <div class="business-hours">
+                    <h2><i class="fas fa-clock"></i> Business Hours</h2>
+                    <ul>
+                        <li><span>Monday - Friday</span> <span>8:00 AM - 8:00 PM</span></li>
+                        <li><span>Saturday</span> <span>9:00 AM - 6:00 PM</span></li>
+                        <li><span>Sunday</span> <span>10:00 AM - 4:00 PM</span></li>
+                    </ul>
+                </div>
+
+                <div class="contact-form">
+                    <h2><i class="fas fa-paper-plane"></i> Send Us a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label">Your Message</label>
+                            <textarea id="message" name="message" class="form-textarea" placeholder="Enter your message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+
+                <div class="suggestion">
+                    <h2><i class="fas fa-lightbulb"></i> Have any Suggestion?</h2>
+                    <input type="text" id="suggestion-input" placeholder="Suggest a product...">
+                    <button onclick="submitSuggestion()">Submit</button>
+                </div>
+
+                <h3 style="text-align: center; margin-top: 2rem;"><i class="fas fa-leaf"></i> Fresh Market – Bringing Freshness to Your Life!</h3>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Fresh Market. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/usercontact.js"></script>
+</body>
+</html>

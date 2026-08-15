@@ -1,0 +1,128 @@
+<!-- Settings Page -->
+<div id="settings-page" class="page-content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Account Settings</h3>
+        </div>
+        
+        <div class="settings-grid">
+            <div class="settings-card">
+                <h3><i class="fas fa-user-shield"></i> Privacy Settings</h3>
+                <div class="settings-option">
+                    <span>Show my profile to other users</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>Allow personalized recommendations</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>Show my purchase history</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-card">
+                <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+                <div class="settings-option">
+                    <span>Email notifications</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>SMS notifications</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>Push notifications</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-card">
+                <h3><i class="fas fa-lock"></i> Security</h3>
+                <div class="settings-option">
+                    <span>Two-factor authentication</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-option">
+                    <span>Login alerts</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                    <i class="fas fa-key"></i> Change Password
+                </button>
+            </div>
+            
+            <div class="settings-card">
+                <h3><i class="fas fa-globe"></i> Language & Region</h3>
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <select class="form-control">
+                        <option>English</option>
+                        <option>Marathi</option>
+                        <option>Hindi</option>
+                        <!-- <option>German</option> -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Time Zone</label>
+                    <select class="form-control">
+                        <option>(UTC) Coordinated Universal Time</option>
+                        <option>Indian Standard Time (IST)</option>
+                        <!-- <option>(UTC-08:00) Pacific Time</option> -->
+                    </select>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Save Preferences
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danger Zone</h3>
+        </div>
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>Warning:</strong> These actions are irreversible. Please proceed with caution.
+            </div>
+        </div>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <button class="btn btn-danger">
+                <i class="fas fa-ban"></i> Deactivate Account
+            </button>
+            <button class="btn btn-danger">
+                <i class="fas fa-trash"></i> Delete Account
+            </button>
+            <button class="btn btn-danger">
+                <i class="fas fa-download"></i> Download Your Data
+            </button>
+        </div>
+    </div>
+</div>

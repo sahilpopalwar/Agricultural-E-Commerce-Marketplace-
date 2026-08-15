@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Fresh Market</title>    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/register.css">
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <i class="fas fa-leaf"></i>
+            Fresh Market
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li>
+                    <div class="profile">
+                        <img src="profile.jpg" alt="Profile" id="profile-img">
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Create Your Account</h2>
+            </div>
+            <div class="card-body">
+                <form id="registerForm" th:action="@{/register}" method="post">
+                    <div class="form-row" style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="name">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" class="form-control" id="dob" name="dob">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Gender</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" id="male" name="gender" value="male">
+                                    <label for="male">Male</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="female" name="gender" value="female">
+                                    <label for="female">Female</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="other" name="gender" value="other">
+                                    <label for="other">Other</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="country">Country</label>
+                            <select class="form-control" id="country" name="country">
+                                <option value="">Select Country</option>
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="au">Australia</option>
+                                <option value="in">India</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interests">Interests (Select multiple)</label>
+                        <select class="form-control" id="interests" name="interests" multiple style="height: auto;">
+                            <option value="sports">Sports</option>
+                            <option value="music">Music</option>
+                            <option value="reading">Reading</option>
+                            <option value="travel">Travel</option>
+                            <option value="technology">Technology</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="input-group-append">
+                                <button type="button" class="btn" onclick="sendEmailOtp()">Send OTP</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="emailOtpSection" class="otp-section">
+                        <div class="form-group">
+                            <label for="emailOtp">Email OTP</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="emailOtp" name="emailOtp" maxlength="6">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn" onclick="verifyEmailOtp()">Verify</button>
+                                </div>
+                            </div>
+                            <small class="text-muted">OTP will expire in <span id="emailTimer" class="timer">5:00</span></small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <div class="input-group">
+                            <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" required>
+                            <div class="input-group-append">
+                                <button type="button" class="btn" onclick="sendMobileOtp()">Send OTP</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mobileOtpSection" class="otp-section">
+                        <div class="form-group">
+                            <label for="mobileOtp">Mobile OTP</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="mobileOtp" name="mobileOtp" maxlength="6">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn" onclick="verifyMobileOtp()">Verify</button>
+                                </div>
+                            </div>
+                            <small class="text-muted">OTP will expire in <span id="mobileTimer" class="timer">5:00</span></small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="about">About You</label>
+                        <textarea class="form-control" id="about" name="about" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group" style="display: flex; align-items: center;">
+                        <input type="checkbox" id="terms" name="terms" required style="margin-right: 0.5rem;">
+                        <label for="terms" style="margin-bottom: 0;">I agree to the terms and conditions</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block" id="registerButton" disabled>Register</button>
+                    
+                    <p class="login-link">Already have an account? <a href="/login">Login here</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Fresh Market. All rights reserved.</p>
+    </footer>
+
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/register.js"></script>
+</body>
+</html>

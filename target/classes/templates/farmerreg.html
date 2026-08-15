@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Registration - Fresh Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/farmerreg.css">
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <i class="fas fa-leaf"></i>
+            Fresh Market
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li>
+                    <div class="profile">
+                        <img src="profile.jpg" alt="Profile" id="profile-img">
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Login Popup -->
+    <div class="login-popup" id="loginPopup">
+        <div class="login-container">
+            <button class="close-btn" id="closeLogin">&times;</button>
+            <h2>Login</h2>
+            <form action="/user" method="post">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="button">Login</button>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="/register">Sign up</a></p>
+                    <p><a href="#" id="forgotPasswordLink">Forgot your password?</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password Recovery Popup -->
+    <div class="recovery-popup" id="recoveryPopup">
+        <div class="recovery-container">
+            <button class="close-btn" id="closeRecovery">&times;</button>
+            <h2>Password Recovery</h2>
+            <form id="recoveryForm">
+                <div class="form-group">
+                    <label for="recoveryEmail" class="form-label">Email Address</label>
+                    <input type="email" id="recoveryEmail" name="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="button">Send Recovery Link</button>
+                <div id="recoveryMessage" class="recovery-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Farmer Registration Form -->
+    <div class="farmer-register-container">
+        <h2>Farmer Registration</h2>
+        <form class="farmer-register-form" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" id="name" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <input type="password" id="confirm-password" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="farm-name" class="form-label">Farm Name</label>
+                <input type="text" id="farm-name" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="farm-address" class="form-label">Farm Address</label>
+                <textarea id="farm-address" class="form-input" rows="3" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">Register as Farmer</button>
+            <p class="login-link">Already have an account? <a href="/login">Login here</a></p>
+        </form>
+    </div>
+
+    <footer>
+        <p class="para">&copy; 2025 Fresh Market. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/farmerreg.js"></script>
+    </script>
+</body>
+</html>

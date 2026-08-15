@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Fresh Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/userservices.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="/" class="logo">
+            <i class="fas fa-leaf"></i>
+            Fresh Market
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/user">Home</a></li>
+                <li><a href="/userabout">About</a></li>
+                <li><a href="/userservices" class="active">Services</a></li>
+                <li><a href="/usercontact">Contact</a></li>
+                <li>
+                    <div class="profile-menu">
+                        <button class="profile-btn">
+                            <img src="sahil.jpg" class="profile-img">
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="/profile" onclick="showPage('profile-page')"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="/order" onclick="showPage('orders-page')"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                            <a href="/Wishlist" onclick="showPage('wishlist-page')"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="/settings" onclick="showPage('settings-page')"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Services Page (default active) -->
+        <div id="services-page" class="page-content active">
+            <main class="service-section">
+                <h1>Our Services</h1>
+                <p class="section-intro">At Fresh Market, we go beyond just delivering groceries. We provide exceptional services to enhance your shopping experience.</p>
+                
+                <div class="services-grid">
+                    <div class="service-card" style="animation-delay: 0.1s">
+                        <i class="fas fa-truck"></i>
+                        <h2>Lightning Fast Delivery</h2>
+                        <p>Get your fresh produce delivered within 2 hours in urban areas or schedule delivery at your convenience.</p>
+                    </div>
+                    
+                    <div class="service-card" style="animation-delay: 0.2s">
+                        <i class="fas fa-leaf"></i>
+                        <h2>Certified Organic</h2>
+                        <p>All our organic products come with certification and detailed sourcing information for complete transparency.</p>
+                    </div>
+                    
+                    <div class="service-card" style="animation-delay: 0.3s">
+                        <i class="fas fa-undo"></i>
+                        <h2>Hassle-Free Returns</h2>
+                        <p>100% satisfaction guarantee with easy returns and refunds if you're not completely happy with your order.</p>
+                    </div>
+                    
+                    <div class="service-card" style="animation-delay: 0.4s">
+                        <i class="fas fa-headset"></i>
+                        <h2>24/7 Support</h2>
+                        <p>Our award-winning customer service team is available anytime via chat, phone, or email.</p>
+                    </div>
+                    
+                    <div class="service-card" style="animation-delay: 0.5s">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h2>Subscription Plans</h2>
+                        <p>Save time and money with our customizable weekly or monthly subscription boxes.</p>
+                    </div>
+                    
+                    <div class="service-card" style="animation-delay: 0.6s">
+                        <i class="fas fa-seedling"></i>
+                        <h2>Farm Tours</h2>
+                        <p>Exclusive visits to our partner farms to see where your food comes from (seasonal availability).</p>
+                    </div>
+                </div>
+            </main>
+            
+            <section class="testimonials">
+                <h2>What Our Customers Say</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            "The 2-hour delivery is a game changer! I can order fresh ingredients right before starting dinner."
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer">
+                            <div class="author-info">
+                                <h4>Priya Sharma</h4>
+                                <p>Regular Customer</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            "Their organic certification is legit. As a nutritionist, I trust Fresh Market for my clients' meal plans."
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Customer">
+                            <div class="author-info">
+                                <h4>Raj Patel</h4>
+                                <p>Nutrition Consultant</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            "The subscription service saved me so much time. Perfectly curated boxes every week with seasonal produce."
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer">
+                            <div class="author-info">
+                                <h4>Ananya Gupta</h4>
+                                <p>Busy Professional</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What areas do you deliver to?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We currently deliver to all major cities in India with plans to expand. Enter your pin code during checkout to check availability in your area. Our 2-hour express delivery is available in select metropolitan areas.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I know your products are truly organic?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>All our organic products come with certification from recognized authorities like India Organic or USDA (for imported items). We also provide detailed farm information and growing practices for complete transparency.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I customize my subscription box?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! Our subscription service is fully customizable. You can choose specific items, set preferences for what you don't want, and adjust quantities. You can also pause or modify your subscription anytime.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What if I receive damaged or spoiled items?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We stand by our 100% satisfaction guarantee. Simply contact our support team within 24 hours with photos of the issue, and we'll either replace the items or refund you immediately - no questions asked.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Fresh Market. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/userservices.js"></script>
+</body>
+</html>
