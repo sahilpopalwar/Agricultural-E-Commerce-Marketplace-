@@ -32,6 +32,7 @@ public class SecurityConfig {
                     "/clerk-login",
                     "/css/**",
                     "/js/**",
+                    "/frontend/**",
                     "/resurces/**",
                     "/sahil.jpg",
                     "/profile.jpg"
