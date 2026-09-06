@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Fresh Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/userabout.css">
+    <link rel="stylesheet" href="/css/nav.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="/" class="logo">
+            <i class="fas fa-leaf"></i>
+            Fresh Market
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/user">Home</a></li>
+                <li><a href="/userabout" class="active">About</a></li>
+                <li><a href="/userservices">Services</a></li>
+                <li><a href="/usercontact">Contact</a></li>
+                <li>
+                    <div class="profile-menu">
+                        <button class="profile-btn">
+                            <img src="/sahil.jpg" class="profile-img" alt="Profile">
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="/profile" onclick="showPage('profile-page')"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="/order" onclick="showPage('orders-page')"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                            <a href="/wishlist" onclick="showPage('wishlist-page')"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="/settings" onclick="showPage('settings-page')"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- About Page (default active) -->
+        <div id="about-page" class="page-content active">
+            <div class="about-section">
+                <h1>About Fresh Market</h1>
+                <p>Fresh Market is committed to providing high-quality, organic fruits and vegetables directly from farms to your doorstep. Our mission is to promote healthy living by making fresh produce easily accessible to everyone.</p>
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Farm Fresh Produce">
+                </div>
+
+                <div class="card">
+                    <h2>Our Values</h2>
+                    <ul>
+                        <li><strong>Quality:</strong> We source only the freshest and highest quality products from trusted local farmers.</li>
+                        <li><strong>Freshness:</strong> Our products are harvested at peak ripeness and delivered quickly to maintain maximum freshness.</li>
+                        <li><strong>Sustainability:</strong> We support eco-friendly and sustainable farming practices that protect our planet.</li>
+                        <li><strong>Community:</strong> We build strong relationships with both our farmers and customers to create a sustainable food ecosystem.</li>
+                        <li><strong>Transparency:</strong> We provide full traceability of all our products from farm to table.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>Why Choose Us?</h2>
+                    <p>With Fresh Market, you get farm-fresh organic produce at competitive prices. We ensure quality, convenience, and a seamless shopping experience with:</p>
+                    <ul>
+                        <li>Next-day delivery for most items</li>
+                        <li>100% satisfaction guarantee</li>
+                        <li>Flexible subscription options</li>
+                        <li>Expert nutrition advice</li>
+                        <li>Seasonal specials and recipes</li>
+                    </ul>
+
+                    <p>Our team of food experts carefully selects each product to meet our strict quality standards. We believe that eating well shouldn't be complicated or expensive, which is why we've created a service that brings the farmer's market directly to your door.</p>
+
+                    <a href="/" class="cta-button">Shop Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Fresh Market. All rights reserved.</p>
+    </footer>
+    <script src="/js/uesrabout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+</body>
+</html>

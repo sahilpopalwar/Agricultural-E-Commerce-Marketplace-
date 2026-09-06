@@ -1,0 +1,210 @@
+/* ===== SETTINGS PAGE STYLES ===== */
+#settings-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Settings Grid Layout */
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.settings-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.settings-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+}
+
+.settings-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.settings-card h3 i {
+    margin-right: 10px;
+    color: #4CAF50;
+    font-size: 1.1rem;
+}
+
+/* Settings Options */
+.settings-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.settings-option:last-child {
+    border-bottom: none;
+}
+
+.settings-option span {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Danger Zone */
+.alert-danger {
+    display: flex;
+    align-items: center;
+    background-color: #FFEBEE;
+    padding: 1rem;
+    border-radius: 6px;
+    margin: 1.5rem;
+    color: #D32F2F;
+}
+
+.alert-danger i {
+    font-size: 1.5rem;
+    margin-right: 12px;
+}
+
+.alert-danger div {
+    flex: 1;
+}
+
+.btn-danger {
+    background-color: #F44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0 1.5rem 1.5rem;
+}
+
+.btn-danger i {
+    margin-right: 8px;
+}
+
+.btn-danger:hover {
+    background-color: #E53935;
+    transform: translateY(-2px);
+}
+
+/* Form Elements (consistent with other pages) */
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .settings-card {
+        padding: 1.2rem;
+    }
+    
+    .btn-danger {
+        width: 100%;
+        margin: 0 0 10px 0 !important;
+        justify-content: center;
+    }
+    
+    .alert-danger {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .alert-danger i {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

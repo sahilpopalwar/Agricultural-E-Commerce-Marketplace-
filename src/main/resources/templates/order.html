@@ -1,0 +1,102 @@
+<!-- Orders Page -->
+<div id="orders-page" class="page-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Order Tracking</h3>
+                </div>
+                
+                <div class="delivery-status">
+                    <div class="status-indicator"></div>
+                    <div class="status-text">Your order is on the way (Expected delivery: Today by 5 PM)</div>
+                </div>
+                
+                <div class="delivery-steps">
+                    <div class="delivery-progress-line"></div>
+                    <div class="delivery-progress-fill"></div>
+                    
+                    <div class="delivery-step">
+                        <div class="step-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-text">Order Placed</div>
+                    </div>
+                    
+                    <div class="delivery-step">
+                        <div class="step-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-text">Processing</div>
+                    </div>
+                    
+                    <div class="delivery-step">
+                        <div class="step-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-text">Shipped</div>
+                    </div>
+                    
+                    <div class="delivery-step">
+                        <div class="step-icon active">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="step-text">On the Way</div>
+                    </div>
+                    
+                    <div class="delivery-step">
+                        <div class="step-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="step-text">Delivered</div>
+                    </div>
+                </div>
+                
+                <div class="map-container" id="map">
+                    <!-- Google Map will be loaded here -->
+                </div>
+                
+                <div class="card-header">
+                    <h3 class="card-title">Order Details</h3>
+                </div>
+                
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <strong>Order #FM-2023-0567</strong>
+                            <div>June 15, 2023</div>
+                        </div>
+                        <div>
+                            <span class="order-status status-pending">On the Way</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Total: ₹24.97</strong>
+                    </div>
+                    <div class="order-products">
+                        <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=100" alt="Apple" class="order-product-img">
+                        <img src="https://images.unsplash.com/photo-1447175008436-054170c2e979?w=100" alt="Carrot" class="order-product-img">
+                        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=100" alt="Bread" class="order-product-img">
+                    </div>
+                </div>
+
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <strong>Order #FM-2023-0482</strong>
+                            <div>June 5, 2023</div>
+                        </div>
+                        <div>
+                            <span class="order-status status-delivered">Delivered</span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Total: ₹18.50</strong>
+                    </div>
+                    <div class="order-products">
+                        <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=100" alt="Banana" class="order-product-img">
+                        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=100" alt="Spinach" class="order-product-img">
+                    </div>
+                </div>
+            </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>

@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continue with Clerk - Fresh Market</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <script async crossorigin="anonymous"
+            src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+</head>
+<body>
+    <main class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Continue with Clerk</h2>
+            </div>
+            <div class="card-body">
+                <p th:if="${#strings.isEmpty(clerkPublishableKey)}" class="text-muted">
+                    Clerk is not configured. Set CLERK_PUBLISHABLE_KEY to enable this sign-in method.
+                </p>
+                <div id="clerk-sign-in"></div>
+            </div>
+        </div>
+    </main>
+    <script th:if="${!#strings.isEmpty(clerkPublishableKey)}"
+            th:inline="javascript">
+        window.addEventListener('load', async function () {
+            await Clerk.load({
+                publishableKey:pk_test_YnJhdmUtcmhpbm8tMjM0NS5jbGVyay5hY2NvdW50cy5kZXYk /*[[${clerkPublishableKey}]]*/
+            });
+            Clerk.mountSignIn(document.getElementById('clerk-sign-in'));
+        });
+    </script>
+</body>
+</html>

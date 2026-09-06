@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Market - Online Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/project.css">
+    <link rel="stylesheet" href="/css/nav1.css">
+</head>
+<body>
+    <header id="mainHeader">
+        <a href="/" class="logo">
+            <i class="fas fa-leaf"></i>
+            Fresh Market
+        </a>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li>
+                    <div class="profile">
+                        <a href="/login">
+                            <img src="/profile.jpg"
+                                alt="Profile"
+                                id="profile-img">
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search products...">
+        <button onclick="searchProducts()"><i class="fas fa-search"></i> Search</button>
+    </div>
+    
+    <section class="product-list" id="product-list">
+        <!-- Sample Products - In a real app, these would be dynamically generated -->
+        <div class="product-card" style="animation-delay: 0.1s">
+            <img src="https://images.unsplash.com/photo-1589927986089-35812388d1f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Organic Apples" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Organic Carrots</h3>
+                <p class="product-price">₹199/kg</p>
+                <p class="product-description">Fresh, crisp organic apples from local orchards. Perfect for snacking or baking.</p>
+                <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            </div>
+        </div>
+        
+        <div class="product-card" style="animation-delay: 0.2s">
+            <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Fresh Carrots" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Fresh Potato</h3>
+                <p class="product-price">₹99/kg</p>
+                <p class="product-description">Sweet and crunchy carrots, packed with nutrients and flavor.</p>
+                <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            </div>
+        </div>
+        
+        <div class="product-card" style="animation-delay: 0.3s">
+            <img src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Organic Spinach" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Organic Mango</h3>
+                <p class="product-price">₹249/bunch</p>
+                <p class="product-description">Tender organic spinach leaves, perfect for salads or cooking.</p>
+                <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            </div>
+        </div>
+        
+        <div class="product-card" style="animation-delay: 0.4s">
+            <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Ripe Tomatoes" class="product-image">
+            <div class="product-info">
+                <h3 class="product-title">Pineapple</h3>
+                <p class="product-price">₹169/kg</p>
+                <p class="product-description">Juicy, vine-ripened tomatoes with exceptional flavor.</p>
+                <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 Fresh Market. All rights reserved.</p>
+    </footer>
+
+    <script src="/js/project.js"></script>
+</body>
+</html>
