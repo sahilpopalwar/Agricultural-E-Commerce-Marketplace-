@@ -120,7 +120,7 @@ mvn spring-boot:run
 
 **4. Access in Browser**
 ```
-http://localhost:8080
+http://localhost:8443
 ```
 
 > 💡 The H2 database console is available at `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:testdb`)
