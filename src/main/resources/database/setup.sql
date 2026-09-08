@@ -5,12 +5,13 @@ USE freshmarket;
 -- Users Table
 CREATE TABLE IF NOT EXISTS users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    phone VARCHAR(20) NOT NULL UNIQUE,
     email VARCHAR(100) UNIQUE NOT NULL,
-    phone VARCHAR(20),
     password_hash VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL DEFAULT 'USER',
+    farm_name VARCHAR(150),
+    farm_address TEXT,
     profile_image VARCHAR(255),
     address TEXT,
     city VARCHAR(50),
@@ -32,9 +33,20 @@ CREATE TABLE IF NOT EXISTS otp_verifications (
     INDEX idx_otp_phone_created (phone, created_at)
 );
 
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    token_hash CHAR(64) NOT NULL UNIQUE,
+    expires_at TIMESTAMP NOT NULL,
+    used_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    INDEX idx_password_reset_expiry (expires_at)
+);
+
 -- Materialized latest delivery status (event history is retained in Kafka)
 CREATE TABLE IF NOT EXISTS order_delivery_status (
-    order_id VARCHAR(100) PRIMARY KEY,
+    order_id INT PRIMARY KEY,
     event_id VARCHAR(36) NOT NULL,
     status VARCHAR(32) NOT NULL,
     location VARCHAR(255),
@@ -80,6 +92,10 @@ CREATE TABLE IF NOT EXISTS orders (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+ALTER TABLE order_delivery_status
+    ADD CONSTRAINT fk_delivery_status_order
+    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE;
 
 -- Order Items Table
 CREATE TABLE IF NOT EXISTS order_items (

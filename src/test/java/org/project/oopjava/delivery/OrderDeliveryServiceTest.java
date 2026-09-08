@@ -25,12 +25,12 @@ class OrderDeliveryServiceTest {
                 new OrderDeliveryService(kafkaTemplate, statusRepository, "delivery-events");
 
         OrderDeliveryEvent event = service.publish(
-                "order-42",
+                "42",
                 new OrderDeliveryUpdateRequest("in_transit", "Nanded", "On the way"));
 
-        assertEquals("order-42", event.orderId());
+        assertEquals("42", event.orderId());
         assertEquals(DeliveryStatus.IN_TRANSIT, event.status());
-        verify(kafkaTemplate).send(eq("delivery-events"), eq("order-42"), eq(event));
+        verify(kafkaTemplate).send(eq("delivery-events"), eq("42"), eq(event));
     }
 
     @Test

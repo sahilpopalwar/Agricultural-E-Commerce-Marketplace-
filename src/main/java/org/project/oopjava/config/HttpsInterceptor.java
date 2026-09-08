@@ -16,23 +16,18 @@ public class HttpsInterceptor implements HandlerInterceptor {
     @Value("${server.ssl.enabled:false}")
     private boolean sslEnabled;
 
-    @Value("${server.port:8443}")
-    private int serverPort;
+    @Value("${app.public-base-url:https://localhost:8443}")
+    private String publicBaseUrl;
 
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request,
                              @NonNull HttpServletResponse response,
                              @NonNull Object handler) throws Exception {
         if (sslEnabled && !request.isSecure()) {
-            String serverName = request.getServerName();
             String requestURI = request.getRequestURI();
             String queryString = request.getQueryString();
             
-            StringBuilder redirectUrl = new StringBuilder();
-            redirectUrl.append("https://")
-                      .append(serverName)
-                      .append(":")
-                      .append(serverPort)
+            StringBuilder redirectUrl = new StringBuilder(publicBaseUrl)
                       .append(requestURI);
             
             if (queryString != null) {

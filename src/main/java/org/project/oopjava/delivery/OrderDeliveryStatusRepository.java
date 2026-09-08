@@ -95,12 +95,21 @@ public class OrderDeliveryStatusRepository {
         if (authentication == null || !authentication.isAuthenticated()) {
             return false;
         }
-        boolean privileged = authentication.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN")
-                        || authority.getAuthority().equals("ROLE_FARMER"));
-        if (privileged) {
+        if (hasRole(authentication, "ADMIN")) {
             return true;
         }
+        return isOrderOwner(orderId, authentication);
+    }
+
+    public boolean canManage(String orderId, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return false;
+        }
+        return hasRole(authentication, "ADMIN")
+                || hasRole(authentication, "FARMER") && isOrderOwner(orderId, authentication);
+    }
+
+    private boolean isOrderOwner(String orderId, Authentication authentication) {
         Integer owner = jdbcTemplate.queryForObject("""
                 SELECT COUNT(*)
                 FROM orders o
@@ -109,5 +118,10 @@ public class OrderDeliveryStatusRepository {
                   AND (u.email = ? OR u.phone = ?)
                 """, Integer.class, orderId, authentication.getName(), authentication.getName());
         return owner != null && owner > 0;
+    }
+
+    private boolean hasRole(Authentication authentication, String role) {
+        return authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_" + role));
     }
 }

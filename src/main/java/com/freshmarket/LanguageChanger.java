@@ -55,7 +55,7 @@ public class LanguageChanger {
         int userId = scanner.nextInt();
         scanner.nextLine();
 
-        String sql = "SELECT u.first_name, u.last_name, us.language " +
+        String sql = "SELECT u.email AS user_name, us.language " +
                     "FROM users u " +
                     "JOIN user_settings us ON u.user_id = us.user_id " +
                     "WHERE u.user_id = ?";
@@ -65,7 +65,7 @@ public class LanguageChanger {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
-                String fullName = rs.getString("first_name") + " " + rs.getString("last_name");
+                String fullName = rs.getString("user_name");
                 String currentLang = rs.getString("language");
                 String languageName = getLanguageName(currentLang);
                 

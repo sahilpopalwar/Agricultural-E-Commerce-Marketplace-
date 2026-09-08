@@ -71,35 +71,40 @@
     <!-- Farmer Registration Form -->
     <div class="farmer-register-container">
         <h2>Farmer Registration</h2>
-        <form class="farmer-register-form" onsubmit="return validateForm()">
+        <form class="farmer-register-form" action="/farmer-register" method="post" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="name" class="form-label">Full Name</label>
-                <input type="text" id="name" class="form-input" required>
+                <input type="text" id="name" name="name" class="form-input" required>
             </div>
 
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-input" required>
+                <input type="email" id="email" name="email" class="form-input" required>
             </div>
 
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" class="form-input" required>
+                <input type="password" id="password" name="password" class="form-input" required>
             </div>
 
             <div class="form-group">
                 <label for="confirm-password" class="form-label">Confirm Password</label>
-                <input type="password" id="confirm-password" class="form-input" required>
+                <input type="password" id="confirm-password" name="confirm-password" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" id="phone" name="phone" class="form-input" required>
             </div>
 
             <div class="form-group">
                 <label for="farm-name" class="form-label">Farm Name</label>
-                <input type="text" id="farm-name" class="form-input" required>
+                <input type="text" id="farm-name" name="farm-name" class="form-input" required>
             </div>
 
             <div class="form-group">
                 <label for="farm-address" class="form-label">Farm Address</label>
-                <textarea id="farm-address" class="form-input" rows="3" required></textarea>
+                <textarea id="farm-address" name="farm-address" class="form-input" rows="3" required></textarea>
             </div>
 
             <button type="submit" class="submit-button">Register as Farmer</button>

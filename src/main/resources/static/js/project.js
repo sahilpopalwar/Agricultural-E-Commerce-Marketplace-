@@ -112,6 +112,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const productCard = this.closest('.product-card');
             const productName = productCard.querySelector('.product-title').textContent;
             const productPrice = productCard.querySelector('.product-price').textContent;
+            const productId = Number(productCard.dataset.productId);
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existing = cart.find(item => item.productId === productId);
+            if (existing) {
+                existing.quantity += 1;
+            }
+            else {
+                cart.push({ productId, name: productName, price: Number(productPrice.replace(/[^\d.]/g, '')), quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
             // Animate button
             this.innerHTML = '<i class="fas fa-check"></i> Added!';
             this.style.backgroundColor = '#27ae60';

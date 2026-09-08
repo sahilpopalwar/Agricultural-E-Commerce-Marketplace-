@@ -398,11 +398,17 @@
                 if (product) {
                     const productCard = document.createElement('div');
                     productCard.className = 'product-card';
-                    productCard.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}" class="product-img">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-price">$${product.price.toFixed(2)}</div>
-                    `;
+                    const image = document.createElement('img');
+                    image.src = product.image;
+                    image.alt = product.name;
+                    image.className = 'product-img';
+                    const name = document.createElement('div');
+                    name.className = 'product-name';
+                    name.textContent = product.name;
+                    const price = document.createElement('div');
+                    price.className = 'product-price';
+                    price.textContent = `$${product.price.toFixed(2)}`;
+                    productCard.append(image, name, price);
                     container.appendChild(productCard);
                 }
             });
@@ -443,12 +449,9 @@
                         break;
                 }
                 
-                activityItem.innerHTML = `
-                    <div>
-                        ${icon} ${activityText}
-                        <div class="activity-type">${new Date(activity.date).toLocaleDateString()}</div>
-                    </div>
-                `;
+                const activityContent = document.createElement('div');
+                activityContent.textContent = `${activityText} ${new Date(activity.date).toLocaleDateString()}`;
+                activityItem.appendChild(activityContent);
                 
                 container.appendChild(activityItem);
             });
@@ -532,21 +535,30 @@
                 const product = trackingProducts.find(p => p.id === item.id) || item;
                 const wishlistItem = document.createElement('div');
                 wishlistItem.className = 'wishlist-item';
-                wishlistItem.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" class="wishlist-img">
-                    <div class="wishlist-details">
-                        <h4>${product.name}</h4>
-                        <div class="price">$${product.price.toFixed(2)}</div>
-                    </div>
-                    <div class="wishlist-actions">
-                        <button class="btn btn-primary" onclick="addToCart('${product.name}', ${product.price})">
-                            <i class="fas fa-shopping-cart"></i> Add to Cart
-                        </button>
-                        <button class="btn btn-danger" onclick="removeFromWishlist(${product.id})">
-                            <i class="fas fa-trash"></i> Remove
-                        </button>
-                    </div>
-                `;
+                const image = document.createElement('img');
+                image.src = product.image;
+                image.alt = product.name;
+                image.className = 'wishlist-img';
+                const details = document.createElement('div');
+                details.className = 'wishlist-details';
+                const title = document.createElement('h4');
+                title.textContent = product.name;
+                const price = document.createElement('div');
+                price.className = 'price';
+                price.textContent = `$${product.price.toFixed(2)}`;
+                details.append(title, price);
+                const actions = document.createElement('div');
+                actions.className = 'wishlist-actions';
+                const addButton = document.createElement('button');
+                addButton.className = 'btn btn-primary';
+                addButton.textContent = 'Add to Cart';
+                addButton.addEventListener('click', () => addToCart(product.name, product.price));
+                const removeButton = document.createElement('button');
+                removeButton.className = 'btn btn-danger';
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', () => removeFromWishlist(product.id));
+                actions.append(addButton, removeButton);
+                wishlistItem.append(image, details, actions);
                 wishlistContainer.appendChild(wishlistItem);
             });
         }

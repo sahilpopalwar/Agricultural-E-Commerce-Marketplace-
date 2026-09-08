@@ -29,6 +29,7 @@ public class SecurityConfig {
                     "/favicon.ico",
                     "/forget-password",
                     "/forgot-password",
+                    "/reset-password",
                     "/login/**",
                     "/clerk-login",
                     "/css/**",

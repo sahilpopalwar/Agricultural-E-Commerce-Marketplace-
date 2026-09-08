@@ -1,0 +1,2 @@
+ALTER TABLE users ADD COLUMN farm_name VARCHAR(150);
+ALTER TABLE users ADD COLUMN farm_address TEXT;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -28,7 +29,11 @@ public class OrderDeliveryController {
     @PreAuthorize("hasAnyRole('ADMIN', 'FARMER')")
     public ResponseEntity<OrderDeliveryEvent> publishDeliveryUpdate(
             @PathVariable String orderId,
-            @RequestBody OrderDeliveryUpdateRequest request) {
+            @Valid @RequestBody OrderDeliveryUpdateRequest request,
+            Authentication authentication) {
+        if (!deliveryService.canManage(orderId, authentication)) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.accepted().body(deliveryService.publish(orderId, request));
     }
 
@@ -36,14 +41,15 @@ public class OrderDeliveryController {
     @PreAuthorize("hasAnyRole('ADMIN', 'FARMER')")
     public ResponseEntity<OrderDeliveryEvent> updateDeliveryStatus(
             @PathVariable String orderId,
-            @RequestBody OrderDeliveryUpdateRequest request) {
-        return publishDeliveryUpdate(orderId, request);
+            @Valid @RequestBody OrderDeliveryUpdateRequest request,
+            Authentication authentication) {
+        return publishDeliveryUpdate(orderId, request, authentication);
     }
 
     @PostMapping("/delivery")
     @PreAuthorize("hasAnyRole('ADMIN', 'FARMER')")
     public ResponseEntity<OrderDeliveryEvent> publishDeliveryUpdate(
-            @RequestBody Map<String, String> request) {
+            @RequestBody Map<String, String> request, Authentication authentication) {
         String orderId = request.get("orderId");
         if (orderId == null || orderId.isBlank()) {
             return ResponseEntity.badRequest().build();
@@ -51,7 +57,8 @@ public class OrderDeliveryController {
         return publishDeliveryUpdate(
                 orderId,
                 new OrderDeliveryUpdateRequest(
-                        request.get("status"), request.get("location"), request.get("message")));
+                        request.get("status"), request.get("location"), request.get("message")),
+                authentication);
     }
 
     @GetMapping("/{orderId}/status")

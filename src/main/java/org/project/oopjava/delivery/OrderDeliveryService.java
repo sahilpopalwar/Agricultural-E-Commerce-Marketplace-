@@ -41,7 +41,7 @@ public class OrderDeliveryService {
     public OrderDeliveryEvent publish(
             String orderId,
             OrderDeliveryUpdateRequest request) {
-        if (orderId == null || !orderId.trim().matches("[A-Za-z0-9_-]{1,100}")) {
+        if (orderId == null || !orderId.trim().matches("\\d{1,10}")) {
             throw new IllegalArgumentException("Invalid order id");
         }
         if (request == null) {
@@ -87,8 +87,12 @@ public class OrderDeliveryService {
         return statusRepository.canAccess(orderId, authentication);
     }
 
+    public boolean canManage(String orderId, Authentication authentication) {
+        return statusRepository.canManage(orderId, authentication);
+    }
+
     public SseEmitter subscribe(String orderId) {
-        if (orderId == null || !orderId.matches("[A-Za-z0-9_-]{1,100}")) {
+        if (orderId == null || !orderId.matches("\\d{1,10}")) {
             throw new IllegalArgumentException("Invalid order id");
         }
         CopyOnWriteArrayList<SseEmitter> orderSubscribers =

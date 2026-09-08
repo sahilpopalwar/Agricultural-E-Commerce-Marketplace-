@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // Checkout form submission
     const confirmationMessage = document.getElementById('confirmation-message');
-    if (checkoutForm) checkoutForm.addEventListener('submit', function (e) {
+    if (checkoutForm)     checkoutForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         // Validate form
         const name = document.getElementById('name').value;
@@ -104,9 +104,26 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Please fill in all required fields');
             return;
         }
-        // In a real application, you would process the payment here
-        // For demo purposes, we'll just show a confirmation message
-        confirmationMessage.textContent = `Thank you for your order, ${name}! Your order has been placed successfully.`;
+        const csrfToken = document.querySelector('input[name="_csrf"]')?.getAttribute('value');
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {})
+            },
+            body: JSON.stringify({
+                items: cart.map(item => ({ productId: item.productId, quantity: item.quantity })),
+                shippingAddress: address,
+                paymentMethod: payment
+            })
+        });
+        if (!response.ok) {
+            confirmationMessage.textContent = 'Unable to place the order. Please sign in and try again.';
+            confirmationMessage.style.display = 'block';
+            return;
+        }
+        const order = await response.json();
+        confirmationMessage.textContent = `Order #${order.orderId} was placed successfully for ${name}.`;
         confirmationMessage.style.display = 'block';
         // Clear the cart
         cart = [];
