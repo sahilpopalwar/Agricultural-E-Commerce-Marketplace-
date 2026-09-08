@@ -130,6 +130,64 @@ http://localhost:8443
 mvn test
 ```
 
+### Configure Clerk authentication
+
+The `/clerk-login` page uses Clerk's browser SDK. Set the publishable key in
+the environment before starting Spring Boot:
+
+PowerShell:
+
+```powershell
+$env:CLERK_PUBLISHABLE_KEY="pk_test_your_key_from_clerk"
+```
+
+For backend JWT validation on `/api/**`, also configure the Clerk JWKS endpoint
+and enable the resource-server security chain:
+
+```powershell
+$env:CLERK_ENABLED="true"
+$env:CLERK_JWKS_URL="https://your-instance.clerk.accounts.dev/.well-known/jwks.json"
+```
+
+The publishable key is safe to expose to the browser, but do not commit
+secret keys or environment files. If `CLERK_PUBLISHABLE_KEY` is not set, the
+page intentionally displays: “Clerk is not configured.”
+
+### Configure MSG91 OTP login
+
+The mobile-number login sends six-digit OTPs through MSG91. Create an OTP
+template in the MSG91 dashboard and copy its template ID, then set both
+variables before starting the application:
+
+```powershell
+$env:MSG91_AUTH_KEY="your_msg91_auth_key"
+$env:MSG91_TEMPLATE_ID="your_msg91_template_id"
+```
+
+The template must support the OTP variable used by MSG91. Do not commit these
+values or place them in frontend code. If either variable is missing, the login
+page reports the configuration error instead of pretending that an OTP was
+sent.
+
+### Configure Kafka order delivery streaming
+
+Order delivery updates are published to Kafka, materialized into
+`order_delivery_status`, and streamed to browsers over SSE. Set these
+environment variables before starting the application (the defaults are
+safe for local development):
+
+```powershell
+$env:KAFKA_BOOTSTRAP_SERVERS="localhost:9092"
+$env:KAFKA_ORDER_DELIVERY_TOPIC="order-delivery-events"
+$env:KAFKA_CONSUMER_GROUP="order-delivery-service"
+$env:KAFKA_LISTENER_AUTO_STARTUP="true"
+```
+
+Publish an update with `POST /api/orders/{orderId}/delivery` and a JSON body
+such as `{"status":"IN_TRANSIT","location":"Nanded"}`. Query the materialized
+status with `GET /api/orders/{orderId}/status`, or connect a browser
+`EventSource` to `GET /api/orders/{orderId}/stream`.
+
 ### Build JAR
 ```bash
 mvn clean package

@@ -22,16 +22,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     // Show login popup when profile image is clicked
-    profileImg.addEventListener('click', function (e) {
-        e.preventDefault();
-        loginPopup.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
+    if (profileImg && loginPopup) {
+        profileImg.addEventListener('click', function (e) {
+            e.preventDefault();
+            loginPopup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
     // Close login popup
-    closeLogin.addEventListener('click', function () {
-        loginPopup.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
+    if (closeLogin && loginPopup) {
+        closeLogin.addEventListener('click', function () {
+            loginPopup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    }
     // Show recovery popup when forgot password link is clicked
     (forgotPasswordLink || noop).addEventListener('click', function (e) {
         e.preventDefault();
@@ -79,29 +83,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 1500);
     });
     // Handle login form submission
-    loginForm.addEventListener('submit', function (e) {
-        if (loginForm.action.includes('/login/request-otp'))
-            return;
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        // Show loading state
-        const submitBtn = loginForm.querySelector('button');
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-        submitBtn.disabled = true;
-        // Simulate login process
-        setTimeout(() => {
-            // In a real application, you would send this data to your server
-            console.log('Login attempt with:', { email, password });
-            // For demo purposes, just close the popup
-            loginPopup.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            submitBtn.innerHTML = 'Login';
-            submitBtn.disabled = false;
-            // Show success notification
-            showNotification('Login successful! Welcome back.', 'success');
-        }, 2000);
-    });
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (e) {
+            if (loginForm.action.includes('/login/request-otp'))
+                return;
+            e.preventDefault();
+            const submitBtn = loginForm.querySelector('button');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            submitBtn.disabled = true;
+            setTimeout(() => {
+                if (loginPopup) {
+                    loginPopup.classList.remove('active');
+                }
+                document.body.style.overflow = 'auto';
+                submitBtn.innerHTML = 'Login';
+                submitBtn.disabled = false;
+                showNotification('Login successful! Welcome back.', 'success');
+            }, 2000);
+        });
+    }
     // Notification function
     function showNotification(message, type) {
         const notification = document.createElement('div');

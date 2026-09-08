@@ -18,7 +18,11 @@
                 <h2>Sign in</h2>
             </div>
             <div class="card-body">
-                <p th:if="${error}" th:text="${error}" class="text-muted"></p>
+                <p th:if="${error}" th:text="${error}" class="text-muted" role="alert"></p>
+                <p th:if="${error != null and #strings.contains(error, 'MSG91 OTP is not configured')}"
+                    class="text-muted">
+                    Configure MSG91_AUTH_KEY and MSG91_TEMPLATE_ID, then restart the application.
+                </p>
                 <p th:if="${param.logout}" class="text-muted">You have been signed out.</p>
                 <form th:if="${otpSent == null}" th:action="@{/login/request-otp}" method="post">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

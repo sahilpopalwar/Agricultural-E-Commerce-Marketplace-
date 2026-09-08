@@ -69,11 +69,6 @@ public class WebController {
         return "user";
     }
 
-    @GetMapping("/forget-password")
-    public String forgetPassword() {
-        return "forget-password";
-    }
-
     @GetMapping("/add-to-cart")
     public String addToCart() {
         return "add_to_cart";

@@ -13,13 +13,13 @@ class PasswordController {
 
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
-    @GetMapping("/forgot-password")
+    @GetMapping({"/forget-password", "/forgot-password"})
     public String showForgotPasswordForm(Model model) {
         model.addAttribute("passwordRecoveryForm", new PasswordRecoveryForm());
-        return "forgot-password"; // Ensure this matches your HTML template name
+        return "forget-password";
     }
 
-    @PostMapping("/forgot-password")
+    @PostMapping({"/forget-password", "/forgot-password"})
     public String processForgotPasswordForm(@RequestParam(required = false) String email, Model model) {
         if (email == null || email.isEmpty()) {
             model.addAttribute("errorMessage", "Email address cannot be empty.");
@@ -30,7 +30,7 @@ class PasswordController {
             model.addAttribute("successMessage", "Password reset link has been sent to your email.");
         }
 
-        return "forgot-password"; // Ensure this matches your HTML template name
+        return "forget-password";
     }
 }
 

@@ -204,28 +204,6 @@ body::after {
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.login-popup.active, .recovery-popup.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.login-container, .recovery-container {
-    background-color: white;
-    padding: 2.5rem;
-    border-radius: 16px;
-    width: 100%;
-    max-width: 450px;
-    position: relative;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    transform: scale(0.8);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.login-popup.active .login-container,
-.recovery-popup.active .recovery-container {
-    transform: scale(1);
-}
-
 .close-btn {
     position: absolute;
     top: 1.5rem;

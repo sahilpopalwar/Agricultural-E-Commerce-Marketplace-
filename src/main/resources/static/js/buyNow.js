@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Cart functionality
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cart = [];
+    try {
+        const storedCart = localStorage.getItem('cart');
+        cart = storedCart ? JSON.parse(storedCart) : [];
+    } catch {
+        localStorage.removeItem('cart');
+    }
     const cartCount = document.getElementById('cart-count');
     const emptyCartMessage = document.getElementById('empty-cart-message');
     const orderSummary = document.getElementById('order-summary');
@@ -10,7 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update cart count
     function updateCartCount() {
         const count = cart.reduce((total, item) => total + item.quantity, 0);
-        cartCount.textContent = count;
+        if (cartCount) {
+            cartCount.textContent = count;
+        }
     }
     // Display cart items
     function displayCartItems() {
@@ -32,13 +40,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 itemElement.className = 'order-item';
                 itemElement.innerHTML = `
                             <span>${item.name} (${item.quantity})</span>
-                            <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                            <span>₹${(item.price * item.quantity).toFixed(2)}</span>
                         `;
                 orderItems.appendChild(itemElement);
                 total += item.price * item.quantity;
             });
             // Update total
-            orderTotal.textContent = `$${total.toFixed(2)}`;
+            orderTotal.textContent = `₹${total.toFixed(2)}`;
         }
     }
     // Initialize cart display
@@ -53,38 +61,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeRecovery = document.getElementById('closeRecovery');
     if (profileImg) {
         profileImg.addEventListener('click', function () {
-            loginPopup.style.display = 'flex';
+            if (loginPopup) loginPopup.style.display = 'flex';
         });
     }
     if (closeLogin) {
         closeLogin.addEventListener('click', function () {
-            loginPopup.style.display = 'none';
+            if (loginPopup) loginPopup.style.display = 'none';
         });
     }
     if (forgotPasswordLink) {
         forgotPasswordLink.addEventListener('click', function (e) {
             e.preventDefault();
-            loginPopup.style.display = 'none';
-            recoveryPopup.style.display = 'flex';
+            if (loginPopup) loginPopup.style.display = 'none';
+            if (recoveryPopup) recoveryPopup.style.display = 'flex';
         });
     }
     if (closeRecovery) {
         closeRecovery.addEventListener('click', function () {
-            recoveryPopup.style.display = 'none';
+            if (recoveryPopup) recoveryPopup.style.display = 'none';
         });
     }
     // Close popups when clicking outside
     window.addEventListener('click', function (e) {
-        if (e.target === loginPopup) {
+        if (loginPopup && e.target === loginPopup) {
             loginPopup.style.display = 'none';
         }
-        if (e.target === recoveryPopup) {
+        if (recoveryPopup && e.target === recoveryPopup) {
             recoveryPopup.style.display = 'none';
         }
     });
     // Checkout form submission
     const confirmationMessage = document.getElementById('confirmation-message');
-    checkoutForm.addEventListener('submit', function (e) {
+    if (checkoutForm) checkoutForm.addEventListener('submit', function (e) {
         e.preventDefault();
         // Validate form
         const name = document.getElementById('name').value;
@@ -134,7 +142,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     // Cart link functionality
-    document.getElementById('cart-link').addEventListener('click', function (e) {
+    const cartLink = document.getElementById('cart-link');
+    if (cartLink) cartLink.addEventListener('click', function (e) {
         e.preventDefault();
         if (cart.length > 0) {
             // In a real app, you might want to show a cart popup or go to cart page

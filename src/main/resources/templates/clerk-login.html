@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Continue with Clerk - Fresh Market</title>
     <link rel="stylesheet" href="/css/register.css">
-    <script async crossorigin="anonymous"
+    <script th:if="${!#strings.isEmpty(clerkPublishableKey)}"
+            defer crossorigin="anonymous"
             src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
 </head>
 <body>
@@ -26,8 +27,13 @@
     <script th:if="${!#strings.isEmpty(clerkPublishableKey)}"
             th:inline="javascript">
         window.addEventListener('load', async function () {
+            if (!window.Clerk) {
+                document.getElementById('clerk-sign-in').textContent =
+                    'Clerk could not be loaded. Check your network connection and try again.';
+                return;
+            }
             await Clerk.load({
-                publishableKey:pk_test_YnJhdmUtcmhpbm8tMjM0NS5jbGVyay5hY2NvdW50cy5kZXYk /*[[${clerkPublishableKey}]]*/
+                publishableKey: /*[[${clerkPublishableKey}]]*/ ""
             });
             Clerk.mountSignIn(document.getElementById('clerk-sign-in'));
         });
