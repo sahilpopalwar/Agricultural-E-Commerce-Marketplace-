@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package org.project.oopjava.delivery;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "org.project.oopjava.delivery.proto";
+option java_outer_classname = "DeliveryEventProto";
+
+message DeliveryEvent {
+  string event_id = 1;
+  string order_id = 2;
+  string status = 3;
+  string location = 4;
+  string message = 5;
+  google.protobuf.Timestamp occurred_at = 6;
+}

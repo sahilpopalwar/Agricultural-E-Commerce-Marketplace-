@@ -123,7 +123,32 @@ mvn spring-boot:run
 http://localhost:8443
 ```
 
-> 💡 The H2 database console is available at `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:testdb`)
+The default runtime configuration uses MySQL and starts HTTP locally. Set the
+database variables before running:
+
+```powershell
+$env:DB_USERNAME="freshmarket_user"
+$env:DB_PASSWORD="your_database_password"
+mvn spring-boot:run
+```
+
+HTTPS is opt-in because the development keystore is intentionally ignored by
+Git. To enable it, generate a keystore and set matching `SSL_ENABLED`,
+`SSL_KEYSTORE_PASSWORD`, and `SSL_KEY_PASSWORD` environment variables.
+
+### JSON and Protobuf messaging
+
+Browser and public REST APIs use JSON. Kafka order-delivery events use the
+custom codec in `src/main/java/org/project/oopjava/delivery` and default to
+JSON for compatibility. Internal deployments can use Protobuf without changing
+the Java event model:
+
+```powershell
+$env:KAFKA_VALUE_FORMAT="protobuf"
+mvn spring-boot:run
+```
+
+The Protobuf contract is versioned at `src/main/proto/delivery_event.proto`.
 
 ### Run Tests
 ```bash
