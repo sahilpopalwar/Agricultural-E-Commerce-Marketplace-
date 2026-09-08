@@ -4,15 +4,25 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Service
 public class OrderDeliveryService {
+    private static final Logger log = LoggerFactory.getLogger(OrderDeliveryService.class);
+    private static final long SSE_TIMEOUT_MS = 30 * 60 * 1000L;
+    private static final int MAX_SUBSCRIBERS_PER_ORDER = 100;
     private final KafkaTemplate<String, OrderDeliveryEvent> kafkaTemplate;
     private final OrderDeliveryStatusRepository statusRepository;
     private final String topic;
@@ -31,10 +41,32 @@ public class OrderDeliveryService {
     public OrderDeliveryEvent publish(
             String orderId,
             OrderDeliveryUpdateRequest request) {
+        if (orderId == null || !orderId.trim().matches("[A-Za-z0-9_-]{1,100}")) {
+            throw new IllegalArgumentException("Invalid order id");
+        }
+        if (request == null) {
+            throw new IllegalArgumentException("Delivery request is required");
+        }
+        if (request.location() != null && request.location().length() > 255
+                || request.message() != null && request.message().length() > 1000) {
+            throw new IllegalArgumentException("Delivery fields are too long");
+        }
         DeliveryStatus status = parseStatus(request.status());
         OrderDeliveryEvent event = OrderDeliveryEvent.create(
                 orderId.trim(), status, request.location(), request.message());
-        kafkaTemplate.send(topic, event.orderId(), event);
+        try {
+            CompletableFuture<?> result = kafkaTemplate.send(topic, event.orderId(), event);
+            if (result != null) {
+                result.get(5, TimeUnit.SECONDS);
+            }
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            log.error("Kafka delivery publish interrupted for order {}", event.orderId(), exception);
+            throw new DeliveryPublishException();
+        } catch (ExecutionException | TimeoutException | RuntimeException exception) {
+            log.error("Kafka delivery publish failed for order {}", event.orderId(), exception);
+            throw new DeliveryPublishException();
+        }
         return event;
     }
 
@@ -51,9 +83,21 @@ public class OrderDeliveryService {
         return statusRepository.findLatest(orderId);
     }
 
+    public boolean canAccess(String orderId, Authentication authentication) {
+        return statusRepository.canAccess(orderId, authentication);
+    }
+
     public SseEmitter subscribe(String orderId) {
-        SseEmitter emitter = new SseEmitter(0L);
-        subscribers.computeIfAbsent(orderId, ignored -> new CopyOnWriteArrayList<>()).add(emitter);
+        if (orderId == null || !orderId.matches("[A-Za-z0-9_-]{1,100}")) {
+            throw new IllegalArgumentException("Invalid order id");
+        }
+        CopyOnWriteArrayList<SseEmitter> orderSubscribers =
+                subscribers.computeIfAbsent(orderId, ignored -> new CopyOnWriteArrayList<>());
+        if (orderSubscribers.size() >= MAX_SUBSCRIBERS_PER_ORDER) {
+            throw new IllegalStateException("Too many subscribers");
+        }
+        SseEmitter emitter = new SseEmitter(SSE_TIMEOUT_MS);
+        orderSubscribers.add(emitter);
         Runnable remove = () -> removeSubscriber(orderId, emitter);
         emitter.onCompletion(remove);
         emitter.onTimeout(remove);

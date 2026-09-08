@@ -165,7 +165,6 @@
             // Get current user settings
             fetch('/api/user/settings', {
                 headers: {
-                    'X-User-ID': userId,
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${getAuthToken()}`
                 }
@@ -309,7 +308,6 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-User-ID': userId,
                     'Authorization': `Bearer ${getAuthToken()}`,
                     'Accept': 'application/json'
                 },

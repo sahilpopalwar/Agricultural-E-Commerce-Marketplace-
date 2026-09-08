@@ -34,10 +34,11 @@
                     cart.forEach(item => {
                         const itemElement = document.createElement('div');
                         itemElement.className = 'order-item';
-                        itemElement.innerHTML = `
-                            <span>${item.name} (${item.quantity})</span>
-                            <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                        `;
+                        const nameElement = document.createElement('span');
+                        nameElement.textContent = `${item.name} (${item.quantity})`;
+                        const priceElement = document.createElement('span');
+                        priceElement.textContent = `$${(item.price * item.quantity).toFixed(2)}`;
+                        itemElement.append(nameElement, priceElement);
                         orderItems.appendChild(itemElement);
                         
                         total += item.price * item.quantity;

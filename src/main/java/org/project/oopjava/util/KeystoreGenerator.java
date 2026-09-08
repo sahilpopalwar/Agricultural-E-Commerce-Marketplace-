@@ -6,7 +6,11 @@ import java.security.cert.Certificate;
 
 public class KeystoreGenerator {
     public static void main(String[] args) throws Exception {
-        char[] password = "changeit".toCharArray();
+        String configuredPassword = System.getenv("SSL_KEYSTORE_PASSWORD");
+        if (configuredPassword == null || configuredPassword.isBlank()) {
+            throw new IllegalStateException("SSL_KEYSTORE_PASSWORD must be set");
+        }
+        char[] password = configuredPassword.toCharArray();
         String keystorePath = "keystore.p12";
 
         // Generate key pair

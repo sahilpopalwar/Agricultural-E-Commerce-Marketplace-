@@ -3,6 +3,7 @@ package org.project.oopjava.delivery;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Optional;
+import org.springframework.security.core.Authentication;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -88,5 +89,25 @@ public class OrderDeliveryStatusRepository {
                     rs.getString("message"),
                     rs.getTimestamp("occurred_at").toInstant()));
         }, orderId);
+    }
+
+    public boolean canAccess(String orderId, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return false;
+        }
+        boolean privileged = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN")
+                        || authority.getAuthority().equals("ROLE_FARMER"));
+        if (privileged) {
+            return true;
+        }
+        Integer owner = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM orders o
+                JOIN users u ON u.user_id = o.user_id
+                WHERE CAST(o.order_id AS CHAR) = ?
+                  AND (u.email = ? OR u.phone = ?)
+                """, Integer.class, orderId, authentication.getName(), authentication.getName());
+        return owner != null && owner > 0;
     }
 }

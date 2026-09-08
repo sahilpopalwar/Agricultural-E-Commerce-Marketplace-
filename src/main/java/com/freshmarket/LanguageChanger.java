@@ -8,11 +8,16 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 public class LanguageChanger {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/fresh_market";
-    private static final String USER = "root";
-    private static final String PASS = "root";
+    private static final String DB_URL =
+            System.getenv().getOrDefault("DB_URL", "jdbc:mysql://localhost:3306/freshmarket");
+    private static final String USER = System.getenv().getOrDefault("DB_USERNAME", "root");
+    private static final String PASS = System.getenv("DB_PASSWORD");
 
     public static void main(String[] args) {
+        if (PASS == null || PASS.isBlank()) {
+            System.err.println("DB_PASSWORD must be set before starting the language utility.");
+            return;
+        }
         try (Scanner scanner = new Scanner(System.in);
              Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
             

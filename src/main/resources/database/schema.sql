@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS otp_verifications (
     otp_hash CHAR(64) NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     used_at TIMESTAMP NULL,
+    attempts INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_otp_phone_created (phone, created_at)
 );

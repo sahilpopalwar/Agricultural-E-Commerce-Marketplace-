@@ -10,9 +10,9 @@ import org.springframework.core.annotation.Order;
 
 @Configuration
 @EnableWebSecurity
+@org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 @Order(2)
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -47,12 +47,6 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/")
                 .permitAll()
-            )
-
-            // ── Remember-me (replaces spring.security.remember-me.* props) ─
-            .rememberMe(remember -> remember
-                .key("your-secure-key-change-in-production")
-                .tokenValiditySeconds(86400)   // 24 hours
             )
 
             // ── CSRF: keep Spring Security's default session-based CSRF ────

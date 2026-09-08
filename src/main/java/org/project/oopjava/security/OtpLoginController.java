@@ -28,6 +28,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 @RequestMapping("/login")
 public class OtpLoginController {
     private static final Duration OTP_VALIDITY = Duration.ofMinutes(5);
+    private static final int MAX_ATTEMPTS = 5;
+    private static final int MAX_REQUESTS_PER_WINDOW = 3;
 
     private final JdbcTemplate jdbcTemplate;
     private final Msg91OtpService otpService;
@@ -46,17 +48,24 @@ public class OtpLoginController {
             model.addAttribute("error", "Enter a valid mobile number.");
             return "login";
         }
+        if (jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM otp_verifications WHERE phone = ? AND created_at > CURRENT_TIMESTAMP - INTERVAL 10 MINUTE",
+                Integer.class, normalizedPhone) >= MAX_REQUESTS_PER_WINDOW) {
+            model.addAttribute("error", "Too many OTP requests. Try again later.");
+            return "login";
+        }
 
         String otp = String.format("%06d", new java.security.SecureRandom().nextInt(1_000_000));
         try {
             otpService.send(normalizedPhone, otp);
         } catch (OtpDeliveryException ex) {
-            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("error", "Unable to send OTP. Please try again later.");
             return "login";
         }
+        jdbcTemplate.update("DELETE FROM otp_verifications WHERE expires_at < CURRENT_TIMESTAMP OR used_at IS NOT NULL");
         Instant expiresAt = Instant.now().plus(OTP_VALIDITY);
         jdbcTemplate.update(
-            "INSERT INTO otp_verifications (phone, otp_hash, expires_at) VALUES (?, ?, ?)",
+            "INSERT INTO otp_verifications (phone, otp_hash, expires_at, attempts) VALUES (?, ?, ?, 0)",
             normalizedPhone, hashOtp(otp), Timestamp.from(expiresAt));
 
         model.addAttribute("phone", normalizedPhone);
@@ -94,10 +103,20 @@ public class OtpLoginController {
               AND otp_hash = ?
               AND used_at IS NULL
               AND expires_at > CURRENT_TIMESTAMP
+              AND attempts < ?
             ORDER BY created_at DESC
             LIMIT 1
-            """, phone, otpHash);
-        return updated == 1;
+            """, phone, otpHash, MAX_ATTEMPTS);
+        if (updated == 1) {
+            jdbcTemplate.update("DELETE FROM otp_verifications WHERE phone = ? AND used_at IS NULL", phone);
+            return true;
+        }
+        jdbcTemplate.update("""
+            UPDATE otp_verifications SET attempts = attempts + 1
+            WHERE phone = ? AND used_at IS NULL AND expires_at > CURRENT_TIMESTAMP
+            ORDER BY created_at DESC LIMIT 1
+            """, phone);
+        return false;
     }
 
     private String hashOtp(String otp) {

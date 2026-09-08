@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS otp_verifications (
     otp_hash CHAR(64) NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     used_at TIMESTAMP NULL,
+    attempts INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_otp_phone_created (phone, created_at)
 );
@@ -59,11 +60,12 @@ CREATE TABLE IF NOT EXISTS products (
     price DECIMAL(10,2) NOT NULL,
     image VARCHAR(255) NOT NULL,
     category_id INT NOT NULL,
-    stock_quantity INT DEFAULT 0,
+    stock_quantity INT DEFAULT 0 CHECK (stock_quantity >= 0),
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    FOREIGN KEY (category_id) REFERENCES categories(category_id),
+    CONSTRAINT chk_product_price CHECK (price >= 0)
 );
 
 -- Orders Table
@@ -84,10 +86,11 @@ CREATE TABLE IF NOT EXISTS order_items (
     order_item_id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT NOT NULL,
     product_id INT NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    UNIQUE KEY uq_wishlist_user_product (user_id, product_id)
 );
 
 -- Wishlist Table
@@ -97,7 +100,8 @@ CREATE TABLE IF NOT EXISTS wishlist (
     product_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    UNIQUE KEY uq_cart_user_product (user_id, product_id)
 );
 
 -- Shopping Cart Table
@@ -111,6 +115,20 @@ CREATE TABLE IF NOT EXISTS shopping_cart (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
+
+ALTER TABLE wishlist
+    ADD CONSTRAINT uq_wishlist_user_product UNIQUE (user_id, product_id);
+
+ALTER TABLE shopping_cart
+    ADD CONSTRAINT uq_cart_user_product UNIQUE (user_id, product_id);
+
+ALTER TABLE products
+    ADD CONSTRAINT chk_product_price CHECK (price >= 0),
+    ADD CONSTRAINT chk_product_stock CHECK (stock_quantity >= 0);
+
+ALTER TABLE order_items
+    ADD CONSTRAINT chk_order_item_quantity CHECK (quantity > 0),
+    ADD CONSTRAINT chk_order_item_price CHECK (price >= 0);
 
 -- Create Indexes
 CREATE INDEX IF NOT EXISTS idx_user_email ON users(email);

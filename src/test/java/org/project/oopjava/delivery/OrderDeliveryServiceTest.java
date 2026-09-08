@@ -1,6 +1,7 @@
 package org.project.oopjava.delivery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -42,5 +43,14 @@ class OrderDeliveryServiceTest {
         service.consume(event);
 
         verify(statusRepository).saveLatest(event);
+    }
+
+    @Test
+    void rejectsMalformedOrderIdsBeforePublishing() {
+        OrderDeliveryService service =
+                new OrderDeliveryService(kafkaTemplate, statusRepository, "delivery-events");
+
+        assertThrows(IllegalArgumentException.class, () -> service.publish(
+                "order/42", new OrderDeliveryUpdateRequest("delivered", null, null)));
     }
 }

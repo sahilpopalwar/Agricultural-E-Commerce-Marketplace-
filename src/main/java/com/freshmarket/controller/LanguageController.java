@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/language")
-@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
 public class LanguageController {
 
     private final LanguageService languageService;
@@ -47,7 +46,6 @@ public class LanguageController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                 "error", "Failed to load translations",
-                "details", e.getMessage(),
                 "language", language
             ));
         }
@@ -70,7 +68,7 @@ public class LanguageController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of(
                 "error", "Failed to get translation",
-                "message", e.getMessage()
+                "status", "unavailable"
             ));
         }
     }

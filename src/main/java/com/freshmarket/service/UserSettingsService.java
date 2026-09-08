@@ -19,7 +19,7 @@ public class UserSettingsService {
     }
     
     private static final String GET_USER_SETTINGS_SQL = """
-        SELECT u.user_id, u.username, us.language, us.email_notifications, us.push_notifications
+        SELECT u.user_id, u.email AS username, us.language, us.email_notifications, us.push_notifications
         FROM users u
         LEFT JOIN user_settings us ON u.user_id = us.user_id
         WHERE u.user_id = ?
@@ -47,6 +47,25 @@ public class UserSettingsService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to update language: " + e.getMessage(), e);
         }
+    }
+
+    public Map<String, Object> getUserSettings(String identity) {
+        Integer userId = findUserId(identity);
+        return getUserSettings(userId);
+    }
+
+    public void updateLanguage(String identity, String language) {
+        updateLanguage(findUserId(identity), language);
+    }
+
+    private Integer findUserId(String identity) {
+        Integer id = jdbcTemplate.queryForObject(
+                "SELECT user_id FROM users WHERE email = ? OR phone = ?",
+                Integer.class, identity, identity);
+        if (id == null) {
+            throw new IllegalArgumentException("Authenticated user was not found");
+        }
+        return id;
     }
     
     private static class UserSettingsRowMapper implements RowMapper<Map<String, Object>> {

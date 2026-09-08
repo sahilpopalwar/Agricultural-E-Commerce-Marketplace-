@@ -4,10 +4,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.freshmarket.service.UserSettingsService;
 import java.util.Map;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/api/user/settings")
-@CrossOrigin(origins = "http://localhost:8080")
 public class UserSettingsController {
 
     private final UserSettingsService userSettingsService;
@@ -18,21 +18,18 @@ public class UserSettingsController {
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getUserSettings(
-            @RequestHeader(value = "X-User-ID", required = false, defaultValue = "1") int userId) {
+            Authentication authentication) {
         try {
-            Map<String, Object> settings = userSettingsService.getUserSettings(userId);
+            Map<String, Object> settings = userSettingsService.getUserSettings(authentication.getName());
             return ResponseEntity.ok(settings);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of(
-                "error", "Failed to fetch user settings",
-                "message", e.getMessage()
-            ));
+            return ResponseEntity.internalServerError().body(Map.of("error", "Failed to fetch user settings"));
         }
     }
 
     @PostMapping("/language")
     public ResponseEntity<Map<String, String>> updateLanguage(
-            @RequestHeader(value = "X-User-ID", required = false, defaultValue = "1") int userId,
+            Authentication authentication,
             @RequestBody Map<String, String> request) {
         try {
             String language = request.get("language");
@@ -43,16 +40,13 @@ public class UserSettingsController {
                 ));
             }
 
-            userSettingsService.updateLanguage(userId, language);
+            userSettingsService.updateLanguage(authentication.getName(), language);
             return ResponseEntity.ok(Map.of(
                 "message", "Language updated successfully",
                 "language", language
             ));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of(
-                "error", "Failed to update language",
-                "message", e.getMessage()
-            ));
+            return ResponseEntity.internalServerError().body(Map.of("error", "Failed to update language"));
         }
     }
 
